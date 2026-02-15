@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: workshop
-          image: quay.io/tingske/alm-workshop
+          image: quay.io/tingske/alm-workshop:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
