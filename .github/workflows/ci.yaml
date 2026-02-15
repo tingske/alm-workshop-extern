@@ -1,6 +1,9 @@
 name: Golang Docker Build
 
-on: push
+on: 
+  push:
+  release:
+    types: [published]
 
 env:
   CONTAINER_REPOSITORY: quay.io/tingske
