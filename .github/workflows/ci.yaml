@@ -1,7 +1,6 @@
 name: Golang Docker Build
 
 on: push
-# LET THE PIPELINE TRIGGER ON A PUSH TO ALL BRANCHES
 
 env:
   CONTAINER_REPOSITORY: quay.io/tingske
