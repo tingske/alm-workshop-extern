@@ -10,12 +10,12 @@ WORKDIR /app
 COPY workshop-service/. .
 
 # Build the Go application and output the binary to path
-RUN go build -v -o bin/workshop
+RUN CGO_ENABLED=0 GOOS=linux go build -v -o bin/workshop
 
 ###########
 ### RUN ###
 ###########
-FROM golang:1.23 AS run
+FROM alpine:3.19 AS run
 
 # Everything will be executed in this working directory in the container
 WORKDIR /app
