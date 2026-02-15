@@ -9,6 +9,9 @@ WORKDIR /app
 # Copy all the Go source code
 COPY workshop-service/. .
 
+# Run unit tests
+RUN go test -v ./...
+
 # Build the Go application and output the binary to path
 RUN CGO_ENABLED=0 GOOS=linux go build -v -o bin/workshop
 
