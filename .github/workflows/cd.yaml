@@ -26,4 +26,5 @@ jobs:
 
       - name: Apply Openshift YAML
         run: |
+          sed -i "s|quay.io/tingske/alm-workshop:.*|quay.io/tingske/alm-workshop:${{ github.event.release.tag_name }}|g" infra/openshift.yaml
           oc apply -f infra/openshift.yaml

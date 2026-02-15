@@ -4,9 +4,9 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: dev-alm-workshop-2025-app
+  name: tst-alm-workshop-2025-app
   labels:
-    app: dev-alm-workshop-2025-app
+    app: tst-alm-workshop-2025-app
     app.openshift.io/runtime: golang
 spec:
   ## TODO: Update replica amount
@@ -14,17 +14,17 @@ spec:
   selector:
     matchLabels:
       # Indicates to which pods the Deployment controller should bind
-      app: dev-alm-workshop-2025-app
+      app: tst-alm-workshop-2025-app
   # Pod Template starts here, this is the pod that is created
   template:
     metadata:
       labels:
         # We use this label in other resources to select this pod
-        app: dev-alm-workshop-2025-app
+        app: tst-alm-workshop-2025-app
     spec:
       containers:
         - name: workshop
-          image: quay.io/tingske/alm-workshop:latest
+          image: quay.io/tingske/alm-workshop:v1.0.0
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -35,9 +35,9 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: dev-alm-workshop-2025-app
+  name: tst-alm-workshop-2025-app
   labels:
-    app: dev-alm-workshop-2025-app
+    app: tst-alm-workshop-2025-app
 spec:
   ports:
     - name: 3000-tcp
@@ -46,20 +46,20 @@ spec:
       targetPort: 3000
   # This indicates to which pods the service will bind
   selector:
-    app: dev-alm-workshop-2025-app
+    app: tst-alm-workshop-2025-app
 ---
 # Route: https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html
 # In short: An OpenShift specific concept but equal to the Ingress resource in Kubernetes with some extra sugar on-top. The Route exposes your selected service to the outside world via a hostname (e.g. workshop-test-for-ae.com). If no hostname is defined in the spec it will use cluster defaults. We will do this as we don't have any custom domains right now.
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: dev-alm-workshop-2025-app
+  name: tst-alm-workshop-2025-app
   labels:
-    app: dev-alm-workshop-2025-app
+    app: tst-alm-workshop-2025-app
 spec:
   to:
     kind: Service
-    name: dev-alm-workshop-2025-app
+    name: tst-alm-workshop-2025-app
     weight: 100
   port:
     targetPort: 3000-tcp
