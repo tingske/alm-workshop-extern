@@ -19,14 +19,16 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", defaultHandler)
+	http.HandleFunc("/", MetricsMiddleware("/", defaultHandler))
 	// Default endpoint that we can use for Kubernetes health checks
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/health", MetricsMiddleware("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(struct{ Status string }{Status: "OK"})
-	})
+	}))
 	// Define the /workshop endpoint
-	http.HandleFunc("/workshop", WorkshopHandler)
+	http.HandleFunc("/workshop", MetricsMiddleware("/workshop", WorkshopHandler))
+	// Prometheus metrics endpoint
+	http.Handle("/metrics", MetricsHandler())
 
 	// Start the server on port 3000
 	slog.Info("Starting server on localhost:3000")

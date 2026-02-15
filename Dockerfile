@@ -9,6 +9,9 @@ WORKDIR /app
 # Copy all the Go source code
 COPY workshop-service/. .
 
+# Download dependencies
+RUN go mod download && go mod tidy
+
 # Run unit tests
 RUN go test -v ./...
 
