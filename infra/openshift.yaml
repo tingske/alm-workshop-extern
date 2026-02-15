@@ -23,8 +23,7 @@ spec:
     spec:
       containers:
         - name: workshop
-          # TODO: Update image to your image
-          image: <<TODO>>
+          image: quay.io/tingske/alm-workshop
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
