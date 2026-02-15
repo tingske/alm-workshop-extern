@@ -1,10 +1,10 @@
 name: Golang Docker Build
 
-on:
-  # LET THE PIPELINE TRIGGER ON A PUSH TO ALL BRANCHES
+on: push
+# LET THE PIPELINE TRIGGER ON A PUSH TO ALL BRANCHES
 
 env:
-  CONTAINER_REPOSITORY: quay.io/mortierdaan # PUT YOUR OWN USERNAME HERE
+  CONTAINER_REPOSITORY: quay.io/tingske
   CONTAINER_IMAGE: alm-workshop
   GOLANG_VERSION: 1.23
 
@@ -19,14 +19,14 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: quay.io
-          username: <<TODO>>
-          password: <<TODO>>
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Extract metadata (tags, labels) for Docker
         uses: docker/metadata-action@v4
         id: meta
         with:
-          images: <<TODO>>
+          images: ${{ env.CONTAINER_REPOSITORY }}/${{ env.CONTAINER_IMAGE }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
