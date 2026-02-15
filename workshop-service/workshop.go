@@ -2,13 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
+	"os"
+	"strconv"
 )
 
 type Workshop struct {
 	Name         string   `json:"name"`
 	Date         string   `json:"date"`
 	Presentator  string   `json:"presentator"`
+	SweaterScore int      `json:"sweaterScore"`
 	Participants []string `json:"participants"`
 }
 
@@ -16,10 +20,22 @@ var workshop = Workshop{
 	Name:         "ALM Workshop",
 	Date:         "1/12/2025",
 	Presentator:  "AE Consultants",
-	Participants: []string{"John Doe", "Mary Little Lamb", "Chuck Norris"},
+	SweaterScore: getDefaultSweaterScore(),
+	Participants: []string{"John Doe", "Mary Little Lamb", "Chuck Norris", "Ting Lee"},
+}
+
+func getDefaultSweaterScore() int {
+	if envScore := os.Getenv("DEFAULT_SWEATER_SCORE"); envScore != "" {
+		if score, err := strconv.Atoi(envScore); err == nil && score >= 1 && score <= 10 {
+			return score
+		}
+	}
+	return 10
 }
 
 func getWorkshopHandler(w http.ResponseWriter, r *http.Request) {
+	// Generate a random SweaterScore between 1 and 10
+	workshop.SweaterScore = rand.Intn(10) + 1
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -35,6 +51,13 @@ func postWorkshopHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid JSON data"))
+		return
+	}
+
+	// Validate SweaterScore is between 1 and 10
+	if newWorkshop.SweaterScore < 1 || newWorkshop.SweaterScore > 10 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("SweaterScore must be between 1 and 10"))
 		return
 	}
 

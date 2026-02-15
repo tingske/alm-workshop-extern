@@ -29,6 +29,9 @@ spec:
           ports:
             - containerPort: 3000
               protocol: TCP
+          env:
+            - name: DEFAULT_SWEATER_SCORE
+              value: "7"
 ---
 # Service: https://kubernetes.io/docs/concepts/services-networking/service/
 # In short: a Service is a method for exposing a network application that is running as one or more Pods in your cluster. It uses the dynamic service discovery via labels to allow for new pods to start / stop on-demand.

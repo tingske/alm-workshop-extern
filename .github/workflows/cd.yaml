@@ -1,10 +1,10 @@
 name: Release Application
 
 on:
-  push:
-    branches: 
+  release:
+    types: [published]
+    branches:
     - develop
-
 env:
   OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
   # ADD YOUR ENVIRONMENT VARIABLES HERE
