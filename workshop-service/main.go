@@ -8,7 +8,7 @@ import (
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	greeting := map[string]string{
-		"message": "Welcome to the ALM Workshop!",
+		"message": "Welcome to the ALM Workshop latest!",
 	}
 
 	w.Header().Set("Content-Type", "application/json")
